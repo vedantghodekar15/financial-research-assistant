@@ -95,13 +95,13 @@ def search(query, k=3):
 # -----------------------------
 # Test
 # -----------------------------
-if __name__ == "__main__":
-    add_pdf_to_faiss("RIL-IAR-2025.pdf")
-
-    results = search("revenue growth", k=3)
-
-    print("\nTop results:\n")
-    for r in results:
-        print(r.page_content[:300])
-        print(r.metadata["source"])
-        print("-" * 50)
+#if __name__ == "__main__":
+#    add_pdf_to_faiss("RIL-IAR-2025.pdf")
+#
+#    results = search("revenue growth", k=3)
+#
+#    print("\nTop results:\n")
+#    for r in results:
+#        print(r.page_content[:300])
+#        print(r.metadata["source"])
+#        print("-" * 50)
