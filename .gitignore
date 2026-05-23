@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# API secrets
+.env
+
+# FAISS vector database
+vectorstore/

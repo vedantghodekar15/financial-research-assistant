@@ -8,4 +8,4 @@ def load_pdf(filename):
     loader = PyPDFLoader(str(pdf_path))
     return loader.load()
 
-docs = load_pdf("RIL-IAR-2025.pdf")
+
