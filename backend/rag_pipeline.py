@@ -5,11 +5,13 @@ from vector_store import load_db
 load_dotenv()
 
 
-def get_retriever(k=4):
-    db = load_db()
+def get_retriever(user_id, k=4):
+    db = load_db(user_id)
 
     if db is None:
-        raise Exception("FAISS index not found. Add a document first.")
+        raise Exception(
+            "FAISS index not found. Add a document first."
+        )
 
     return db.as_retriever(
         search_type="similarity",
@@ -17,11 +19,14 @@ def get_retriever(k=4):
     )
 
 
-def ask_question(query):
-    retriever = get_retriever()
+def ask_question(query, user_id):
+    retriever = get_retriever(user_id)
+
     docs = retriever.invoke(query)
 
-    context = "\n\n".join([doc.page_content for doc in docs])
+    context = "\n\n".join(
+        [doc.page_content for doc in docs]
+    )
 
     llm = ChatGroq(
         model_name="llama-3.1-8b-instant",
@@ -45,8 +50,3 @@ Answer clearly and concisely.
     response = llm.invoke(prompt)
 
     return response.content
-
-
-#if __name__ == "__main__":
-#    question = "What are the major financial highlights?"
-#    print(ask_question(question))

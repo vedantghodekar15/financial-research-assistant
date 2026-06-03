@@ -12,16 +12,15 @@ def get_llm():
     )
 
 
-def summarize_report():
+def summarize_report(user_id):
 
-    db = load_db()
+    db = load_db(user_id)
 
     if db is None:
         raise Exception(
             "FAISS index not found. Add a document first."
         )
 
-    # Retrieve most relevant chunks for summary
     retriever = db.as_retriever(
         search_type="similarity",
         search_kwargs={"k": 6}
@@ -61,7 +60,3 @@ Summary:
     response = llm.invoke(prompt)
 
     return response.content
-
-
-#if __name__ == "__main__":
-#    print(summarize_report())

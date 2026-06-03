@@ -5,6 +5,7 @@ from fastapi import (
     Depends,
     HTTPException
 )
+from fastapi.middleware.cors import CORSMiddleware
 
 import shutil
 import os
@@ -31,6 +32,16 @@ from auth import (
 
 app = FastAPI(
     title="Financial Research Assistant API"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,7 +156,7 @@ async def ask(
     current_user=Depends(get_current_user)
 ):
 
-    answer = ask_question(query)
+    answer = ask_question(query, current_user.id)
 
     return {
         "question": query,
@@ -162,7 +173,7 @@ async def search(
     current_user=Depends(get_current_user)
 ):
 
-    retriever = get_retriever()
+    retriever = get_retriever(current_user.id)
     docs = retriever.invoke(query)
 
     results = []
@@ -190,7 +201,7 @@ async def summarize(
     current_user=Depends(get_current_user)
 ):
 
-    summary = summarize_report()
+    summary = summarize_report(current_user.id)
 
     return {
         "summary": summary
